@@ -3,7 +3,7 @@
 <div class="container">
   <div id="home" class="page">
     <div class="home-content" data-aos="fade-up">
-      <h2 class="home-title">اكتشف عمرك بدقة</h2>
+      <h2 class="calculate-title" data-aos="fade-up">اكتشف عمرك بدقة</h2>
       <p class="home-description">
         يوفر موقعنا طريقة دقيقة وسهلة لحساب عمرك بالسنين والأشهر والأيام بناءً على تاريخ ميلادك. سواء للتسلية أو التخطيط أو الفضول، ابدأ الآن!
       </p>
@@ -32,4 +32,5 @@
   </div>
 </div>
 
-<?php require('layouts/footer.php'); ?>
+
+<?php require('layouts/footer.php'); ?> 
