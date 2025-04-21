@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>حساب العمر</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #e0f7fa, #80deea);
+      min-height: 100vh;
+    }
+    .btn-animation {
+      transition: all 0.3s ease;
+    }
+    .btn-animation:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+    .btn-animation:active {
+      transform: scale(0.95);
+    }
+    .page {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    .page.active {
+      display: block;
+      opacity: 1;
+    }
+    .card {
+      transform: translateY(20px);
+      opacity: 0;
+      animation: slideIn 0.5s forwards;
+    }
+    @keyframes slideIn {
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    #ageCard {
+      background: linear-gradient(135deg, #4b6cb7, #182848);
+      color: white;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      transform: translateY(20px);
+      opacity: 0;
+      transition: all 0.5s ease;
+    }
+    #ageCard.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    #ageCard p {
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body class="font-sans">
+  <!-- Navigation Bar -->
+  <nav class="bg-blue-600 text-white p-4 shadow-md sticky top-0 z-10">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold">حساب العمر</h1>
+      <!-- Desktop Menu -->
+      <ul class="hidden md:flex space-x-4 space-x-reverse">
+        <li><a href="#" onclick="showPage('home')" class="hover:underline">الرئيسية</a></li>
+        <li><a href="#" onclick="showPage('calculate')" class="hover:underline">احسب عمرك</a></li>
+        <li><a href="#" onclick="showPage('info')" class="hover:underline">معلومات إضافية</a></li>
+        <li><a href="#" onclick="showPage('contact')" class="hover:underline">تواصل معنا</a></li>
+      </ul>
+      <!-- Hamburger Button -->
+      <button class="md:hidden text-white focus:outline-none" onclick="toggleMenu()">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="md:hidden hidden mt-4 space-y-2 text-right">
+      <a href="#" onclick="showPage('home'); toggleMenu()" class="block px-4 py-2 hover:bg-blue-500">الرئيسية</a>
+      <a href="#" onclick="showPage('calculate'); toggleMenu()" class="block px-4 py-2 hover:bg-blue-500">احسب عمرك</a>
+      <a href="#" onclick="showPage('info'); toggleMenu()" class="block px-4 py-2 hover:bg-blue-500">معلومات إضافية</a>
+      <a href="#" onclick="showPage('contact'); toggleMenu()" class="block px-4 py-2 hover:bg-blue-500">تواصل معنا</a>
+    </div>
+  </nav>
+
+  <!-- Pages -->
+  <div class="container mx-auto p-6">
+    <!-- Home Page -->
+    <div id="home" class="page active">
+      <div class="text-center mb-8">
+        <h2 class="text-4xl font-bold text-blue-600 mb-4">اكتشف عمرك بدقة</h2>
+        <p class="text-lg text-gray-700 mb-6">
+          يوفر موقعنا طريقة دقيقة وسهلة لحساب عمرك بالسنين والأشهر والأيام بناءً على تاريخ ميلادك. سواء للتسلية أو التخطيط أو الفضول، ابدأ الآن!
+        </p>
+        <button onclick="showPage('calculate')" class="bg-blue-600 text-white px-6 py-3 rounded-lg btn-animation">
+          احسب عمرك الآن
+        </button>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div class="bg-white p-6 rounded-lg shadow-md card">
+          <h3 class="text-xl font-semibold text-blue-600 mb-2">لماذا تحسب عمرك؟</h3>
+          <p class="text-gray-700">
+            معرفة عمرك الدقيق يساعد في تخطيط الأحداث، تحديد المراحل الحياتية، أو إشباع فضولك. أداتنا سريعة، دقيقة، ومجانية!
+          </p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-md card" style="animation-delay: 0.2s;">
+          <h3 class="text-xl font-semibold text-blue-600 mb-2">الأسئلة الشائعة</h3>
+          <p class="text-gray-700">
+            هل تتساءل عن كيفية حساب العمر أو أهمية تاريخ الميلاد؟ اطلع على صفحة <a href="#" onclick="showPage('info')" class="text-blue-600 underline">معلومات إضافية</a> للحصول على الإجابات!
+          </p>
+        </div>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow-md card" style="animation-delay: 0.4s;">
+        <h3 class="text-xl font-semibold text-blue-600 mb-4">آراء المستخدمين</h3>
+        <p class="text-gray-700 italic">"هذه الأداة سهلة الاستخدام للغاية وقدمت لي عمري الدقيق في ثوانٍ! أنصح بها بشدة!" — سارة، 28</p>
+      </div>
+    </div>
+
+    <!-- Calculate Age Page -->
+    <div id="calculate" class="page">
+      <h2 class="text-3xl font-bold text-blue-600 mb-4">احسب عمرك</h2>
+      <div class="bg-white p-6 rounded-lg shadow-md mb-6 card">
+        <h3 class="text-xl font-semibold text-gray-700 mb-2">كيف يعمل؟</h3>
+        <p class="text-gray-700 mb-4">
+          أدخل اسمك وتاريخ ميلادك أدناه، وسنحسب عمرك بناءً على تاريخ اليوم. ستحصل على النتائج بالسنين والأشهر والأيام فورًا!
+        </p>
+        <label for="name" class="block text-gray-700 mb-2">اسمك:</label>
+        <input type="text" id="name" class="w-full p-2 border rounded-lg mb-4" required>
+        <label for="birthdate" class="block text-gray-700 mb-2">تاريخ الميلاد:</label>
+        <input type="date" id="birthdate" class="w-full p-2 border rounded-lg mb-4" required>
+        <div class="flex space-x-4 space-x-reverse">
+          <button onclick="calculateAge()" class="bg-blue-600 text-white px-6 py-3 rounded-lg btn-animation">
+            احسب العمر
+          </button>
+          <button onclick="showAgeCard()" class="bg-green-600 text-white px-6 py-3 rounded-lg btn-animation">
+            عرض البيانات
+          </button>
+          <button onclick="clearForm()" class="bg-gray-400 text-white px-6 py-3 rounded-lg btn-animation">
+            مسح
+          </button>
+        </div>
+      </div>
+      <!-- Age Result Card (Hidden by Default) -->
+      <div id="ageCard" class="p-6 mb-6 card hidden">
+        <h3 class="text-2xl font-bold text-white mb-4 text-center">نتيجة العمر</h3>
+        <p id="nameResult" class="text-lg text-white text-center"></p>
+        <p id="birthdateResult" class="text-lg text-white text-center"></p>
+        <p id="ageResult" class="text-lg text-white text-center"></p>
+        <p id="detailedAgeResult" class="text-lg text-white text-center"></p>
+        <p id="quoteResult" class="text-lg text-white text-center italic"></p>
+        <button onclick="exportCard()" class="bg-yellow-500 text-white px-6 py-3 rounded-lg btn-animation mx-auto block mt-4">
+          تصدير كصورة
+        </button>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow-md card" style="animation-delay: 0.2s;">
+        <h3 class="text-xl font-semibold text-gray-700 mb-2">مثال على النتيجة</h3>
+        <p class="text-gray-700">مثال: إذا ولدت في 1 يناير 1995، فقد يكون عمرك اليوم <strong>30 سنة، 3 أشهر، و18 يومًا</strong>.</p>
+        <p id="last-result" class="text-gray-600 mt-4"></p>
+      </div>
+    </div>
+
+    <!-- Result Page -->
+    <div id="result" class="page">
+      <h2 class="text-3xl font-bold text-blue-600 mb-4">نتيجة حساب العمر</h2>
+      <div id="result-text" class="bg-white p-6 rounded-lg shadow-md text-lg text-gray-700 mb-6 card"></div>
+      <div class="bg-white p-6 rounded-lg shadow-md mb-6 card" style="animation-delay: 0.2s;">
+        <h3 class="text-xl font-semibold text-gray-700 mb-2">حقيقة ممتعة عن سنة ميلادك</h3>
+        <p id="fun-fact" class="text-gray-700"></p>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow-md mb-6 card" style="animation-delay: 0.4s;">
+        <h3 class="text-xl font-semibold text-gray-700 mb-2">إلهام لك</h3>
+        <p id="quote" class="text-gray-700 italic"></p>
+      </div>
+      <div class="flex space-x-4 space-x-reverse">
+        <button onclick="showPage('calculate')" class="bg-blue-600 text-white px-6 py-3 rounded-lg btn-animation">
+          احسب مرة أخرى
+        </button>
+        <button onclick="shareResult()" class="bg-green-600 text-white px-6 py-3 rounded-lg btn-animation">
+          مشاركة النتيجة
+        </button>
+      </div>
+    </div>
+
+    <!-- Additional Info Page -->
+    <div id="info" class="page">
+      <h2 class="text-3xl font-bold text-blue-600 mb-4">معلومات إضافية</h2>
+      <div class="bg-white p-6 rounded-lg shadow-md mb-6 card">
+        <h3 class="text-xl font-semibold text-gray-700 mb-2">كيف يتم حساب العمر</h3>
+        <p class="text-gray-700 mb-4">
+          نستخدم التقويم الغريغوري لمقارنة تاريخ ميلادك بالتاريخ الحالي. يأخذ الحساب في الاعتبار السنوات الكبيسة وأطوال الأشهر المختلفة لضمان الدقة.
+        </p>
+        <p class="text-gray-700">
+          يقوم الخوارزم الخاص بنا بتعديل الأيام أو الأشهر السلبية لضمان نتائج دقيقة.
+        </p>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow-md mb-6 card" style="animation-delay: 0.2s;">
+        <h3 class="text-xl font-semibold text-gray-700 mb-2">السياق التاريخي للتقويمات</h3>
+        <p class="text-gray-700">
+          تم تقديم التقويم الغريغوري في عام 1582، وهو الأكثر استخدامًا اليوم. كانت الأنظمة السابقة، مثل التقويم اليولياني، تحتوي على قواعد سنة كبيسة أقل دقة.
+        </p>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow-md card" style="animation-delay: 0.4s;">
+        <h3 class="text-xl font-semibold text-gray-700 mb-2">أنظمة العمر حول العالم</h3>
+        <table class="w-full text-right border-collapse">
+          <thead>
+            <tr class="bg-blue-100">
+              <th class="p-2 border">النظام</th>
+              <th class="p-2 border">الوصف</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="p-2 border">العمر الغربي</td>
+              <td class="p-2 border">يحسب السنوات المكتملة منذ الولادة (يستخدم هنا).</td>
+            </tr>
+            <tr>
+              <td class="p-2 border">العمر الشرق آسيوي</td>
+              <td class="p-2 border">يحسب السنة الحالية كجزء من العمر، ويزيد في رأس السنة.</td>
+            </tr>
+            <tr>
+              <td class="p-2 border">العمر الكوري</td>
+              <td class="p-2 border">مشابه للشرق آسيوي ولكنه يزيد في 1 يناير.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Contact Page -->
+    <div id="contact" class="page">
+      <h2 class="text-3xl font-bold text-blue-600 mb-4">تواصل معنا</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-white p-6 rounded-lg shadow-md card">
+          <h3 class="text-xl font-semibold text-gray-700 mb-2">أرسل لنا رسالة</h3>
+          <div>
+            <label for="contactName" class="block text-gray-700 mb-2">الاسم:</label>
+            <input type="text" id="contactName" class="w-full p-2 border rounded-lg mb-4" required>
+          </div>
+          <div>
+            <label for="email" class="block text-gray-700 mb-2">البريد الإلكتروني:</label>
+            <input type="email" id="email" class="w-full p-2 border rounded-lg mb-4" required>
+          </div>
+          <div>
+            <label for="message" class="block text-gray-700 mb-2">الرسالة:</label>
+            <textarea id="message" class="w-full p-2 border rounded-lg mb-4" rows="5" required></textarea>
+          </div>
+          <button onclick="submitContact()" class="bg-blue-600 text-white px-6 py-3 rounded-lg btn-animation">
+            إرسال
+          </button>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-md card" style="animation-delay: 0.2s;">
+          <h3 class="text-xl font-semibold text-gray-700 mb-2">اعثر علينا</h3>
+          <p class="text-gray-700 mb-4">نحن هنا لمساعدتك! تواصل عبر النموذج أو اعثر علينا في:</p>
+          <div class="bg-gray-200 h-48 rounded-lg mb-4 flex items-center justify-center">
+            <p class="text-gray-600">[عنصر نائب للخريطة]</p>
+          </div>
+          <p class="text-gray-700">تابعنا على وسائل التواصل الاجتماعي:</p>
+          <div class="flex space-x-4 space-x-reverse mt-2">
+            <a href="#" class="text-blue-600 hover:text-blue-800">فيسبوك</a>
+            <a href="#" class="text-blue-600 hover:text-blue-800">تويتر</a>
+            <a href="#" class="text-blue-600 hover:text-blue-800">إنستغرام</a>
+          </div>
+        </div>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow-md card" style="animation-delay: 0.4s;">
+        <h3 class="text-xl font-semibold text-gray-700 mb-2">الأسئلة الشائعة</h3>
+        <p class="text-gray-700 mb-2"><strong>س: ما مدى دقة الحاسبة؟</strong></p>
+        <p class="text-gray-700 mb-2">ج: أداتنا دقيقة للغاية، حيث تأخذ في الاعتبار السنوات الكبيسة وتغيرات التقويم.</p>
+        <p class="text-gray-700 mb-2"><strong>س: هل يمكنني حفظ نتائجي؟</strong></p>
+        <p class="text-gray-700">ج: يتم حفظ آخر نتيجة محليًا وتظهر في صفحة الحساب.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let ageData = null;
+
+    function showPage(pageId) {
+      document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function calculateAge() {
+      const name = document.getElementById('name').value.trim();
+      const birthdateInput = document.getElementById('birthdate').value;
+      const birthdate = new Date(birthdateInput);
+      const today = new Date();
+
+      if (!name) {
+        alert('يرجى إدخال اسمك.');
+        return;
+      }
+      if (!birthdateInput || birthdate > today) {
+        alert('يرجى إدخال تاريخ ميلاد صحيح.');
+        return;
+      }
+
+      // حساب العمر بالسنوات، الأشهر، والأيام
+      let years = today.getFullYear() - birthdate.getFullYear();
+      let months = today.getMonth() - birthdate.getMonth();
+      let days = today.getDate() - birthdate.getDate();
+
+      if (days < 0) {
+        months--;
+        days += new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+      }
+      if (months < 0) {
+        years--;
+        months += 12;
+      }
+
+      // حساب العمر بالأيام، الدقائق، والثواني
+      const timeDiff = today - birthdate;
+      const totalDays = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+      const totalMinutes = Math.floor(timeDiff / (1000 * 60));
+      const totalSeconds = Math.floor(timeDiff / 1000);
+
+      // تخزين البيانات
+      ageData = {
+        name,
+        birthdate: birthdate.toLocaleDateString('ar-EG'),
+        years,
+        months,
+        days,
+        totalDays,
+        totalMinutes,
+        totalSeconds,
+        quote: getMotivationalQuote(years)
+      };
+
+      // تحديث نص صفحة النتيجة
+      const resultText = `
+        عمر ${name} هو: <br>
+        <strong>${years}</strong> سنة، <strong>${months}</strong> شهر، <strong>${days}</strong> يوم
+      `;
+      document.getElementById('result-text').innerHTML = resultText;
+
+      // حفظ النتيجة في LocalStorage
+      localStorage.setItem('lastAge', JSON.stringify({ name, years, months, days }));
+      updateLastResult();
+
+      // تحديث حقيقة ممتعة وجملة إلهام
+      document.getElementById('fun-fact').textContent = getFunFact(birthdate.getFullYear());
+      document.getElementById('quote').textContent = ageData.quote;
+
+      showPage('result');
+    }
+
+    function showAgeCard() {
+      if (!ageData) {
+        alert('يرجى حساب العمر أولاً!');
+        return;
+      }
+
+      // تحديث نصوص البطاقة
+      document.getElementById('nameResult').textContent = `الاسم: ${ageData.name}`;
+      document.getElementById('birthdateResult').textContent = `تاريخ الميلاد: ${ageData.birthdate}`;
+      document.getElementById('ageResult').textContent = `العمر: ${ageData.years} سنة، ${ageData.months} شهر، ${ageData.days} يوم`;
+      document.getElementById('detailedAgeResult').textContent = `عشت: ${ageData.totalDays} يوم، ${ageData.totalMinutes} دقيقة، ${ageData.totalSeconds} ثانية`;
+      document.getElementById('quoteResult').textContent = `إلهام: ${ageData.quote}`;
+
+      // إظهار البطاقة
+      const ageCard = document.getElementById('ageCard');
+      ageCard.classList.remove('hidden');
+      ageCard.classList.add('show');
+    }
+
+    function exportCard() {
+      const card = document.getElementById('ageCard');
+      html2canvas(card).then(canvas => {
+        const link = document.createElement('a');
+        link.download = `age_result_${ageData.name}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      }).catch(err => alert('خطأ في تصدير الصورة: ' + err));
+    }
+
+    function clearForm() {
+      document.getElementById('name').value = '';
+      document.getElementById('birthdate').value = '';
+      document.getElementById('nameResult').textContent = '';
+      document.getElementById('birthdateResult').textContent = '';
+      document.getElementById('ageResult').textContent = '';
+      document.getElementById('detailedAgeResult').textContent = '';
+      document.getElementById('quoteResult').textContent = '';
+      document.getElementById('ageCard').classList.remove('show');
+      document.getElementById('ageCard').classList.add('hidden');
+      ageData = null;
+    }
+
+    function shareResult() {
+      const result = document.getElementById('result-text').textContent;
+      if (navigator.share) {
+        navigator.share({
+          title: 'نتيجة حساب العمر',
+          text: result,
+          url: window.location.href
+        }).catch(err => alert('خطأ في مشاركة النتيجة.'));
+      } else {
+        alert('انسخ النتيجة لمشاركتها: ' + result);
+      }
+    }
+
+    function submitContact() {
+      const name = document.getElementById('contactName').value;
+      const email = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
+
+      if (!name || !email || !message) {
+        alert('يرجى ملء جميع الحقول.');
+        return;
+      }
+
+      alert('تم إرسال رسالتك بنجاح!');
+      document.getElementById('contactName').value = '';
+      document.getElementById('email').value = '';
+      document.getElementById('message').value = '';
+    }
+
+    function updateLastResult() {
+      const lastAge = JSON.parse(localStorage.getItem('lastAge'));
+      if (lastAge) {
+        document.getElementById('last-result').textContent = `آخر عمر محسوب لـ ${lastAge.name}: ${lastAge.years} سنة، ${lastAge.months} شهر، ${lastAge.days} يوم`;
+      }
+    }
+
+    function getFunFact(year) {
+      const facts = {
+        1990: "أطلقت ناسا تلسكوب هابل الفضائي.",
+        2000: "بدأ القرن الحادي والعشرون.",
+        2010: "أُعلن عن جهاز iPad لأول مرة.",
+        2020: "انتشر فيروس كورونا عالميًا."
+      };
+      return facts[year] || `في سنة ${year} حدثت الكثير من الأحداث الرائعة!`;
+    }
+
+    function getMotivationalQuote(years) {
+      const quotes = [
+        years < 20 ? "الشباب هبة الطبيعة، لكن العمر عمل فني." :
+        years < 40 ? "الحياة رحلة؛ استمر في الاستكشاف والنمو!" :
+        "مع العمر تأتي الحكمة، وأنت تصبح أكثر حكمة!"
+      ];
+      return quotes[0];
+    }
+
+    function toggleMenu() {
+      const menu = document.getElementById("mobileMenu");
+      menu.classList.toggle("hidden");
+    }
+
+    window.onload = updateLastResult;
+  </script>
+</body>
+</html>
