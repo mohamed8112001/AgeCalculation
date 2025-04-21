@@ -64,13 +64,63 @@ function calculateAge() {
     totalDays,
     totalMinutes,
     totalSeconds,
-    quote: getMotivationalQuote(years),
     funFact: getFunFact(birthdate.getFullYear())
   };
 
+  // Save to localStorage for display
   localStorage.setItem('ageResult', JSON.stringify(ageData));
   localStorage.setItem('lastAge', JSON.stringify({ name, years, months, days }));
-  window.location.href = 'result.php';
+
+  // Save to backend
+  fetch('save_result.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(ageData)
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.status === 'success') {
+      window.location.href = 'result.php';
+    } else {
+      alert('خطأ في حفظ النتيجة.');
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert('خطأ في الاتصال بالخادم.');
+  });
+}
+
+function sendResultEmail() {
+  const email = document.getElementById('emailInput').value;
+  if (!email) {
+    alert('يرجى إدخال بريد إلكتروني صحيح.');
+    return;
+  }
+
+  const ageData = JSON.parse(localStorage.getItem('ageResult'));
+  if (!ageData) {
+    alert('لا توجد نتائج لحساب العمر.');
+    return;
+  }
+
+  fetch('send_email.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, ageData })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.status === 'success') {
+      alert('تم إرسال النتيجة إلى بريدك الإلكتروني!');
+    } else {
+      alert('خطأ في إرسال البريد: ' + data.message);
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert('خطأ في الاتصال بالخادم.');
+  });
 }
 
 function exportCard() {
@@ -101,22 +151,6 @@ function shareResult() {
   }
 }
 
-function submitContact() {
-  const name = document.getElementById('contactName').value;
-  const email = document.getElementById('email').value;
-  const message = document.getElementById('message').value;
-
-  if (!name || !email || !message) {
-    alert('يرجى ملء جميع الحقول.');
-    return;
-  }
-
-  alert('تم إرسال رسالتك بنجاح!');
-  document.getElementById('contactName').value = '';
-  document.getElementById('email').value = '';
-  document.getElementById('message').value = '';
-}
-
 function updateLastResult() {
   const lastAge = JSON.parse(localStorage.getItem('lastAge'));
   if (lastAge) {
@@ -132,15 +166,6 @@ function getFunFact(year) {
     2020: "انتشر فيروس كورونا عالميًا."
   };
   return facts[year] || `في سنة ${year} حدثت الكثير من الأحداث الرائعة!`;
-}
-
-function getMotivationalQuote(years) {
-  const quotes = [
-    years < 20 ? "الشباب هبة الطبيعة، لكن العمر عمل فني." :
-    years < 40 ? "الحياة رحلة؛ استمر في الاستكشاف والنمو!" :
-    "مع العمر تأتي الحكمة، وأنت تصبح أكثر حكمة!"
-  ];
-  return quotes[0];
 }
 
 function toggleMenu() {

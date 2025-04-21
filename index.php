@@ -7,7 +7,7 @@
       <p class="home-description">
         يوفر موقعنا طريقة دقيقة وسهلة لحساب عمرك بالسنين والأشهر والأيام بناءً على تاريخ ميلادك. سواء للتسلية أو التخطيط أو الفضول، ابدأ الآن!
       </p>
-      <button onclick="window.location.href='calculate.php'" class="btn btn-blue">
+      <button onclick="window.location.href='ageCalculate.php'" class="btn btn-blue">
         احسب عمرك الآن
       </button>
     </div>

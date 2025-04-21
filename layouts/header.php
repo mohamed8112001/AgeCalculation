@@ -14,9 +14,10 @@
       <h1 class="nav-title">حساب العمر</h1>
       <ul class="desktop-menu">
         <li><a href="index.php" <?php if(basename($_SERVER['PHP_SELF']) == 'index.php') echo 'class="active-link"'; ?>>الرئيسية</a></li>
-        <li><a href="ageCalculate.php" <?php if(basename($_SERVER['PHP_SELF']) == 'calculate.php') echo 'class="active-link"'; ?>>احسب عمرك</a></li>
-        <li><a href="about.php" <?php if(basename($_SERVER['PHP_SELF']) == 'info.php') echo 'class="active-link"'; ?>>معلومات إضافية</a></li>
+        <li><a href="ageCalculate.php" <?php if(basename($_SERVER['PHP_SELF']) == 'ageCalculate.php') echo 'class="active-link"'; ?>>احسب عمرك</a></li>
+        <li><a href="about.php" <?php if(basename($_SERVER['PHP_SELF']) == 'about.php') echo 'class="active-link"'; ?>>معلومات إضافية</a></li>
         <li><a href="contact.php" <?php if(basename($_SERVER['PHP_SELF']) == 'contact.php') echo 'class="active-link"'; ?>>تواصل معنا</a></li>
+        <li><a href="process_contact.php" <?php if(basename($_SERVER['PHP_SELF']) == 'process_contact.php') echo 'class="active-link"'; ?>>الاراء </a></li>
       </ul>
       <div class="theme-toggle">
         <button id="themeToggle" class="btn btn-theme">
@@ -39,5 +40,6 @@
       <a href="ageCalculate.php" onclick="toggleMenu()">احسب عمرك</a>
       <a href="about.php" onclick="toggleMenu()">معلومات إضافية</a>
       <a href="contact.php" onclick="toggleMenu()">تواصل معنا</a>
+      <a href="process_contact.php" onclick="toggleMenu()">الاراء</a>
     </div>
   </nav> 
