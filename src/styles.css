@@ -768,3 +768,8 @@ body.dark-mode .review-field .field-label {
     gap: 2rem;
 }
 }
+body {
+  font-family: 'Tajawal', sans-serif;
+  direction: rtl;
+  text-align: right;
+}
