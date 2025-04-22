@@ -17,7 +17,7 @@
 <body class="light-mode">
   <nav>
     <div class="container nav-content">
-      <h1 class="nav-title">حساب العمر</h1>
+    <h1 class="nav-title" onclick="location.href='index.php'">حساب العمر</h1>
       <ul class="desktop-menu">
         <li><a href="index.php" <?php if(basename($_SERVER['PHP_SELF']) == 'index.php') echo 'class="active-link"'; ?>>الرئيسية</a></li>
         <li><a href="ageCalculate.php" <?php if(basename($_SERVER['PHP_SELF']) == 'ageCalculate.php') echo 'class="active-link"'; ?>>احسب عمرك</a></li>

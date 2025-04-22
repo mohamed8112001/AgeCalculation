@@ -768,12 +768,3 @@ body.dark-mode .review-field .field-label {
     gap: 2rem;
 }
 }
-footer{
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background: #2b2525;
-  color: white;
-  text-align: center;
-  padding: 1em;
-}

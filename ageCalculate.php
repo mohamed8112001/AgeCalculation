@@ -131,13 +131,17 @@ require('layouts/header.php');
       </div>
       <div class="button-group">
         <button id="downloadBtn" class="btn btn-yellow" data-aos="zoom-in">تنزيل كصورة</button>
-        <a href="index.php" class="btn btn-blue" data-aos="zoom-in" data-aos-delay="100">احسب مرة أخرى</a>
-        <a href="index.php" class="btn btn-blue" data-aos="zoom-in" data-aos-delay="200">العودة إلى الصفحة الرئيسية</a>
+        <a style="height:50px" href="ageCalculate.php" class="btn btn-blue" data-aos="zoom-in" data-aos-delay="100">احسب مرة أخرى</a>
+        <a style="height:50px" href="index.php" class="btn btn-blue" data-aos="zoom-in" data-aos-delay="200">العودة إلى الصفحة الرئيسية</a>
       </div>
     <?php endif; ?>
   </div>
 </div>
-
+<br>
+<br>
+<br>
+<br>
+<br>
 <script>
 document.getElementById('downloadBtn')?.addEventListener('click', function() {
     const ageCard = document.getElementById('ageCard');
