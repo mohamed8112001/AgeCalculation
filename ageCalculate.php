@@ -5,6 +5,18 @@ $birthdate = '';
 $ageDetails = null;
 $errors = [];
 
+// Inspirational quotes array in Arabic
+$inspirationalQuotes = [
+    "كل يوم هو فرصة جديدة لتحقيق أحلامك.",
+    "العمر ليس سوى رقم، الشغف هو ما يحييك.",
+    "لا تنتظر الفرصة، اصنعها بنفسك.",
+    "النجاح هو رحلة، ليس وجهة.",
+    "كل خطوة تقربك من هدفك، فلا تتوقف."
+];
+
+// Select a random quote
+$randomQuote = $inspirationalQuotes[array_rand($inspirationalQuotes)];
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Sanitize and validate inputs
     $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
@@ -46,23 +58,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 require('layouts/header.php');
 ?>
 
+<!-- Add Google Fonts for a decorative Arabic font -->
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+<!-- Add html2canvas library for exporting the card as an image -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
 <div class="container">
   <div class="page">
     <h2 class="calculate-title" data-aos="fade-up">
-      <div class="card" data-aos="fade-up" data-aos-delay="100">
-      <form method="POST" action="ageCalculate.php">
-        <label class="input-label" for="username">الاسم:</label>
-        <input type="text" id="username" name="username" class="input-field" placeholder="أدخل اسمك" required>
-        
-        <label class="input-label" for="birthdate">تاريخ الميلاد:</label>
-        <input type="date" id="birthdate" name="birthdate" class="input-field" required>
-        
-        <div class="button-group">
-          <button type="submit" class="btn btn-blue">احسب العمر</button>
-        </div>
-      </form>
-    </div>
+      <?php echo empty($errors) && $ageDetails !== null ? "نتيجة حساب العمر" : "حساب العمر"; ?>
     </h2>
+
+    <!-- Move the form outside of h2 -->
+    <?php if ($ageDetails === null || !empty($errors)): ?>
+      <div class="card" data-aos="fade-up" data-aos-delay="100">
+        <form method="POST" action="ageCalculate.php">
+          <label class="input-label" for="username">الاسم:</label>
+          <input type="text" id="username" name="username" class="input-field" placeholder="أدخل اسمك" required>
+          
+          <label class="input-label" for="birthdate">تاريخ الميلاد:</label>
+          <input type="date" id="birthdate" name="birthdate" class="input-field" required>
+          
+          <div class="button-group">
+            <button type="submit" class="btn btn-blue">احسب العمر</button>
+          </div>
+        </form>
+      </div>
+    <?php endif; ?>
 
     <?php if (!empty($errors)): ?>
       <?php foreach ($errors as $error): ?>
@@ -71,7 +94,8 @@ require('layouts/header.php');
     <?php endif; ?>
 
     <?php if ($ageDetails !== null && empty($errors)): ?>
-      <div id="ageCard" data-aos="zoom-in">
+      <div id="ageCard" class="decorative-font" data-aos="zoom-in">
+        <!-- Add "أبجد هوز ggo'" as a decorative subtitle -->
         <h3 class="card-title">مرحبًا، <?php echo htmlspecialchars($username); ?>!</h3>
         <p class="decorative-text">عمرك هو:</p>
         <div class="age-details">
@@ -100,13 +124,39 @@ require('layouts/header.php');
             <span class="field-value"><?php echo $ageDetails['totalSeconds']; ?> ثانية</span>
           </div>
         </div>
+        <!-- Inspirational Quote Section -->
+        <div class="inspirational-quote">
+          <p class="quote-text"><?php echo htmlspecialchars($randomQuote); ?></p>
+        </div>
+      </div>
+      <div class="button-group">
+        <button id="downloadBtn" class="btn btn-yellow" data-aos="zoom-in">تنزيل كصورة</button>
+        <a href="index.php" class="btn btn-blue" data-aos="zoom-in" data-aos-delay="100">احسب مرة أخرى</a>
+        <a href="index.php" class="btn btn-blue" data-aos="zoom-in" data-aos-delay="200">العودة إلى الصفحة الرئيسية</a>
       </div>
     <?php endif; ?>
-
-    <div class="button-group">
-      <a href="index.php" class="btn btn-blue" data-aos="zoom-in"> العوده الى الصفحه الرئيسية</a>
-    </div>
   </div>
 </div>
 
-<?php require('layouts/footer.php'); ?>
+<script>
+document.getElementById('downloadBtn')?.addEventListener('click', function() {
+    const ageCard = document.getElementById('ageCard');
+    
+    // Use html2canvas to capture the card as an image
+    html2canvas(ageCard, {
+        scale: 2, // Increase resolution for better quality
+        backgroundColor: null // Keep the background transparent if needed
+    }).then(canvas => {
+        // Convert the canvas to a downloadable image
+        const link = document.createElement('a');
+        link.download = 'age_card.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+    }).catch(error => {
+        console.error('Error generating image:', error);
+        alert('حدث خطأ أثناء تنزيل الصورة. حاول مرة أخرى.');
+    });
+});
+</script>
+
+<?php require('layouts/footer.php');?>

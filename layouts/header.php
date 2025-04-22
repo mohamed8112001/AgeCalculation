@@ -7,6 +7,12 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <link rel="stylesheet" href="src/styles.css">
+  <style>
+  #themeToggle:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(255, 251, 251, 0.2);
+  }
+</style>
 </head>
 <body class="light-mode">
   <nav>

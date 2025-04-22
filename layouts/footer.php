@@ -1,3 +1,6 @@
+<head>
+  <link rel="stylesheet" href="../src/styles.css">
+</head>
 <footer class="footer">
     <div class="container">
       <p class="card-text">© 2025 حساب العمر. جميع الحقوق محفوظة.</p>
