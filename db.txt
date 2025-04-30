@@ -1,0 +1,33 @@
+CREATE DATABASE age_calculator_db;
+
+USE age_calculator_db;
+
+CREATE TABLE messages (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    message TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE quotes (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    quote TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+INSERT INTO messages (name, email, message) VALUES
+('Ali Ahmed', 'ali.ahmed@example.com', 'I love your age calculator!'),
+('Sara Mohamed', 'sara.m@example.com', 'Please add a feature to save results.'),
+('Youssef Adel', 'y.adel@example.com', 'Great design and very easy to use.'),
+('Nada Samir', 'nada.s@example.com', 'Can you add dark mode?'),
+('Kareem Hassan', 'kareemh@example.com', 'Amazing! I shared it with my friends.');
+
+INSERT INTO quotes (quote) VALUES
+('The only way to do great work is to love what you do. – Steve Jobs'),
+('Success is not in what you have, but who you are. – Bo Bennett'),
+('Do something today that your future self will thank you for.'),
+('It always seems impossible until it is done. – Nelson Mandela'),
+('Believe in yourself and all that you are.');
